@@ -14,10 +14,13 @@ app.get("/", (req, res) => {
 });
 
 const authRoutes = require("./routes/authRoute");
-app.use("/api/auth",authRoutes);
+app.use("/api/auth", authRoutes);
+
+const postRoutes = require("./routes/postRoutes");
+app.use("/api/posts", postRoutes);
 
 const PORT = process.env.PORT || 5001;
-app.listen (PORT,()=>{
+app.listen(PORT, () => {
     // console.log("Server Started at http://localhost:"+PORT);
     console.log(`Server Started at http://localhost:${PORT}`);
 });
