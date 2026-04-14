@@ -62,14 +62,37 @@ const loginUser = async (req, res) => {
             });
         }
         const isMatch = await bcrypt.compare(password, user.password);
-
-        if(!isMatch){
-            
+        if (!isMatch) {
+            return res.status(404).json({
+                success: false,
+                message: "Invalid Password / Credentials"
+            });
         }
+
+        const token = jwt.sign(
+            { id: user._id },
+            process.env.JWT_SECRET,
+            { expiresIn: "7d" }
+        );
+
+        res.status(200).json({
+            success: true,
+            message: "Login Success",
+            token,
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email
+            }
+        });
     }
     catch (e) {
-
+        res.status(500).json({
+            success: false,
+            message: "Unable to Login",
+            error: e.message
+        })
     }
 };
 
-module.exports = { registerUser };
+module.exports = { registerUser, loginUser };
