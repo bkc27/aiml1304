@@ -29,4 +29,30 @@ const createPost = async (req, res) => {
     }
 };
 
+const getAllPost = async (req, res) => {
+    try {
+        const posts = await Post.find().populate("user", "name email");
+        res.status(200).json({
+            success: true,
+            message: "All Posts",
+            count: posts.length,
+            posts
+        });
+    }
+    catch (e) {
+        res.status(500).json({
+            success: false,
+            message: "Unable to get Posts",
+            error: e.message
+        })
+    }
+};
+
+const getSinglePost = () => { };
+
+const updatePost = () => { };
+
+const deletePost = () => { };
+
+
 module.exports = { createPost };
